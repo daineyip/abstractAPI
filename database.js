@@ -1,18 +1,17 @@
+const mongoose = require('mongoose');
 require('dotenv').config();
-const { Sequelize } = require('sequelize');
-const config = require('./config/config.js')['development'];
 
-const sequelize = new Sequelize(config.database, config.username, config.password, {
-    host: config.host,
-    dialect: config.dialect,
-  });
-  
-  sequelize.authenticate()
-    .then(() => {
-      console.log('Connection has been established successfully.');
-    })
-    .catch(err => {
-      console.log('Unable to connect to the database (seq):', err);
-    });
-  
-  module.exports = sequelize;
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+        console.log('MongoDB connected');
+    } catch (error) {
+        console.error('MongoDB connection error:', error);
+        process.exit(1); // Exit with failure
+    }
+};
+
+module.exports = connectDB;

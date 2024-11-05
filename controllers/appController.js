@@ -1,23 +1,18 @@
 const {OpenAI} = require('openai');
 require('dotenv').config();
-const Pdfs = require("../models/pdfsModel");
+const PDF = require("../models/pdfsModel");
 
 const openai = new OpenAI({
     apiKey: process.env.OPEN_AI_KEY,  // Use apiKey directly from environment variables
 });
 exports.uploadPDF = async (req, res) => {
-    try{
-        const {
-            filename,
-            content
-        } = req.body;
-        const newEntry = await Pdfs.create({
-            filename,
-            content
-        });
-        res.status(201).send(newEntry);
+    try {
+        const { filename, content } = req.body;
+        const pdf = new PDF({ filename, content });
+        await pdf.save();
+        res.status(201).json(pdf);
     } catch (error) {
-        res.status(400).send({message: "error", error: error.message})
+        res.status(500).json({ error: error.message });
     }
 }
 exports.LLMexpand = async (req, res) => {

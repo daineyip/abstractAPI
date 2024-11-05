@@ -1,28 +1,14 @@
-const { Model, DataTypes } = require('sequelize');
-const sequelize = require('../database');
+const mongoose = require('mongoose');
 
-class Pdfs extends Model {
-}
-Pdfs.init({
-    id: {
-        type: DataTypes.INTEGER,
-        autoIncrement: true,
-        primaryKey: true,
-        allowNull: false,
-    },
+const pdfSchema = new mongoose.Schema({
     filename: {
-        type: DataTypes.STRING,
-        allowNull: false,
+        type: String,
+        required: true,
     },
     content: {
-        type: DataTypes.TEXT,
-        allowNull: false,
+        type: String,
+        required: true,
     },
-}, {
-    sequelize,
-    modelName: 'Pdfs',
-    tableName: 'pdfs',
-    timestamps: false,
 });
 
-module.exports = Pdfs;
+module.exports = mongoose.model('PDF', pdfSchema);

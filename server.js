@@ -1,9 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const connectDB = require('./database');
+const appRoutes = require('./routes/appRoutes'); // Import the router
 
 dotenv.config();
-
-const appRoutes = require('./routes/appRoutes'); // Import the router
+connectDB();
 
 const app = express();
 app.use(express.json());
